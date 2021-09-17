@@ -1,0 +1,60 @@
+% Program for solving Symmetric linear system using Cholesky's Method
+clc;                                % Clear Screen
+clear all;                          % Clear Workspace
+format short;
+
+A=[4 2 14; 2 17 -5; 14 -5 83];      % Coefficient Matrix A
+b=[14;-101;155];                    % Coefficient Matrix b
+n=size(A,1);                        % Number of rows
+
+if A==A'
+    %Cholesky's Method
+    l(1,1)=sqrt(A(1,1));
+
+    for j=2:n
+        l(j,1)=A(j,1)/l(1,1);
+    end    
+
+    for j=2:n
+        w=0;
+        for s=1:j-1
+            w=w+(l(j,s))^2;
+        end
+        l(j,j)=sqrt(A(j,j)-w);
+        if j<n
+           w=0;
+           for s=1:j-1
+               w=w+l(j,s)*l(j+1,s);
+           end
+           l(j+1,j)=(A(j+1,j)-w)/l(j,j);
+        end
+    end
+
+    % Forward Substitution
+    y(1,1)=b(1,1)/l(1,1);
+    for j=2:n
+        w=0;
+        for k=1:j-1
+            w=w+l(j,k)*y(k,1);
+        end
+        y(j,1)=(b(j,1)-w)/l(j,j);  
+    end 
+    u=l';
+    % Backward Substitution
+    x(n,1)=y(n,1)/u(n,n);
+    for j=n-1:-1:1
+        w=0;
+        for k=j+1:n
+            w=w+u(j,k)*x(k,1);   
+        end
+        x(j,1)=(y(j,1)-w)/u(j,j);
+    end  
+    disp('Lower Triangular Matrix');
+    disp(l);
+    disp('Upper Triangular Matrix');
+    disp(u);  
+    disp('Solution');
+    disp(x); 
+else
+    disp('Matrix not Symmetric');
+end 
