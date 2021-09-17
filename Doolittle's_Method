@@ -1,13 +1,12 @@
-% Program gives solution for linear system using Doolittle's Method
+% Program for solving linear system using Doolittle's Method
 clc;                                % Clear Screen
 clear all;                          % Clear Workspace
 format short;
-% Coefficient Matrix A  
-A=[ 3 5 2;0 8 2;6 2 8];
-% Coefficient Matrix b   
-b=[ 8;-7;26];
+  
+A=[ 3 5 2;0 8 2;6 2 8];             % Coefficient Matrix A   
+b=[ 8;-7;26];                       % Coefficient Matrix b
+n=size(A,1);                        % Number of rows
 
-n=size(A,1);                         % Number of rows
 % Doolittle's Method
 for j=1:n
     l(j,j)=1; 
@@ -53,7 +52,11 @@ for j=n-1:-1:1
     for k=j+1:n
         w=w+u(j,k)*x(k,1);   
     end
-    x(j,1)=(b(j,1)-w)/u(j,j);
-end  
-disp('Solution')
+    x(j,1)=(y(j,1)-w)/u(j,j);
+end
+disp('Lower Triangular Matrix');
+disp(l);
+disp('Upper Triangular Matrix');
+disp(u);  
+disp('Solution');
 disp(x);  
