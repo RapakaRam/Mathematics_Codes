@@ -1,0 +1,17 @@
+% Program for solving linear(n x n) system using Cramer's Rule
+clc;                                % Clear Screen
+clear all;                          % Clear Workspace
+format short;
+% Coefficient Matrix A    
+A=[3 -2 1;-2 1 4;1 4 -5];           
+% Coefficient Matrix b
+b=[13;11;-31];                           
+n=size(A,1);                        % Number of unknowns
+d=det(A);                           % Determinant A
+
+for j=1:n
+    D(:,:,j)=A;
+    D(:,j,j)=b; 
+    x(j,1)=det(D(:,:,j))/d;   
+end  
+disp(x);
