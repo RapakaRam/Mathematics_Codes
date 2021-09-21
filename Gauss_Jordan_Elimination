@@ -1,0 +1,36 @@
+% Program for Inversing a matrix(n x n) using Gauss_Jordan_Elimination
+clc;                                % Clear Screen
+clear all;                          % Clear Workspace
+% Matrix A    
+A=[-1 1 2;3 -1 1;-1 3 4];
+n=size(A,1);                        % Number of rows
+I=eye(n);                           % Identity matrix of size n x n
+
+B=[A I];
+disp(B);
+for k=1:n-1
+    B(k,:)=B(k,:)/B(k,k);
+    for j=k+1:n
+        v=B(j,k);
+        for p=k:n+n
+            B(j,p)=B(j,p)-(v*B(k,p));
+        end
+    end
+    disp(B);
+end
+B(n,:)=B(n,:)/B(n,n);
+
+for k=n:-1:2
+    for j=k-1:-1:1
+        v=B(j,k);
+            for p=k:n+n
+                B(j,p)=B(j,p)-(v*B(k,p));
+            end
+    end
+    disp(B);
+end
+
+C=B(:,n+1:n+n);
+disp('Inverse Matrix is');
+disp(C);
+
