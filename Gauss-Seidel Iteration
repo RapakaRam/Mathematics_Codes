@@ -7,13 +7,13 @@ A=[1 -0.25 -0.25 0; -0.25 1 0 -0.25; -0.25 0 1 -0.25; 0 -0.25 -0.25 1];
 % Coefficient Matrix b
 b=[50; 50; 25; 25];                         
 n=size(A,1);                        % Number of unknowns
-
+% Making Diagonal elements of matrix(A) one
 for i=1:n
     for j=1:n
         B(i,j)=A(i,j)/A(i,i);
     end
 end
-
+% Lower Triagular Matrix L of A
 for i=1:n
     for j=1:n
         if j<i
@@ -23,7 +23,7 @@ for i=1:n
         end
     end
 end 
-
+% Upper Triagular Matrix U of A
 for i=1:n
     for j=1:n
         if j>i
@@ -33,17 +33,17 @@ for i=1:n
         end
     end
 end 
-
-C=-1*inv(eye(n,n)+L)*U;
+C=-1*inv(eye(n,n)+L)*U;              % Iteration Matrix (C)
 D=0;
 for j=1:n
     for k=1:n
         D=D+(C(j,k))^2;
     end
 end
-NormC=sqrt(D);
-
+NormC=sqrt(D);                       % Frobenius Norm (NormC)
+% Condition for Convergence
 if NormC<1
+    % Gauss-Seidel Iteration
     N=20;
     x=0*ones(n,1);
     for m=1:N
