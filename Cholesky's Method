@@ -2,11 +2,10 @@
 clc;                                % Clear Screen
 clear all;                          % Clear Workspace
 format short;
-
 A=[4 2 14; 2 17 -5; 14 -5 83];      % Coefficient Matrix A
 b=[14;-101;155];                    % Coefficient Matrix b
 n=size(A,1);                        % Number of rows
-
+% Condition for Symmetric Matrix
 if A==A'
     %Cholesky's Method
     l(1,1)=sqrt(A(1,1));
