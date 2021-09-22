@@ -5,27 +5,67 @@ format short;
 % Coefficient Matrix A    
 A=[1 -0.25 -0.25 0; -0.25 1 0 -0.25; -0.25 0 1 -0.25; 0 -0.25 -0.25 1];           
 % Coefficient Matrix b
-b=[50; 50; 25; 25];                           
+b=[50; 50; 25; 25];                         
 n=size(A,1);                        % Number of unknowns
-N=20;
-x=100*ones(n,1);
-for m=1:N
+
+for i=1:n
     for j=1:n
-        u=0;
-        for k=1:j-1
-            u=u+(A(j,k)*x(k,m+1));
-        end
-        v=0;
-        for k=j+1:n
-            v=v+(A(j,k)*x(k,m));
-        end
-        x(j,m+1)=(1/A(j,j))*(b(j,1)-u-v);
+        B(i,j)=A(i,j)/A(i,i);
     end
+end
+
+for i=1:n
     for j=1:n
-        w(j,m)=abs(x(j,m+1)-x(j,m));  
+        if j<i
+           L(i,j)=B(i,j); 
+        else  
+           L(i,j)=0;
+        end
     end
-    if max(w(:,m))<0.001
-       disp(x(:,m+1))
-       break; 
+end 
+
+for i=1:n
+    for j=1:n
+        if j>i
+           U(i,j)=B(i,j); 
+        else  
+           U(i,j)=0;
+        end
     end
-end    
+end 
+
+C=-1*inv(eye(n,n)+L)*U;
+D=0;
+for j=1:n
+    for k=1:n
+        D=D+(C(j,k))^2;
+    end
+end
+NormC=sqrt(D);
+
+if NormC<1
+    N=20;
+    x=0*ones(n,1);
+    for m=1:N
+        for j=1:n
+            u=0;
+            for k=1:j-1
+                u=u+(A(j,k)*x(k,m+1));
+            end
+            v=0;
+            for k=j+1:n
+                v=v+(A(j,k)*x(k,m));
+            end
+            x(j,m+1)=(1/A(j,j))*(b(j,1)-u-v);
+        end
+        for j=1:n
+            w(j,m)=abs(x(j,m+1)-x(j,m));  
+        end
+        if max(w(:,m))<0.001
+           disp(x(:,m+1))
+           break; 
+        end
+    end 
+else  
+    disp('Gauss-Seidel Iteration method Diverges');
+end       
