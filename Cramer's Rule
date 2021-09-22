@@ -8,7 +8,7 @@ A=[3 -2 1;-2 1 4;1 4 -5];
 b=[13;11;-31];                           
 n=size(A,1);                        % Number of unknowns
 d=det(A);                           % Determinant A
-
+%cCramer's Rule
 for j=1:n
     D(:,:,j)=A;
     D(:,j,j)=b; 
